@@ -1,0 +1,28 @@
+Examples for providing custom data via SNMP on Junos
+
+1. snmp-helper-chassis-power.py
+Use SNMP scripting to provide custom data for a specific OID
+
+https://apps.juniper.net/mib-explorer/search.jsp#object=jnxPsuChassisPowerConsumed&product=Junos%20OS&release=22.2R1
+https://www.juniper.net/documentation/us/en/software/junos/automation-scripting/topics/example/junos-script-automation-snmp-script-example.html
+
+> show snmp mib get .1.3.6.1.4.1.2636.3.58.1.2.1.9.0
+jnxPsuChassisPowerConsumed.0 = 576
+
+2. umib-helper-chassis-power.py
+Use Utility MIB to provide custom data.
+Contents in utility MIB is updated by running this script at a regular interval (via event-options).
+
+> show snmp mib walk jnxUtil ascii | match pem | match value
+jnxUtilIntegerValue."pem_0_dc_current" = 12
+jnxUtilIntegerValue."pem_0_dc_load" = 56
+jnxUtilIntegerValue."pem_0_dc_power" = 576
+jnxUtilIntegerValue."pem_0_dc_voltage" = 48
+jnxUtilIntegerValue."pem_1_dc_current" = 0
+jnxUtilIntegerValue."pem_1_dc_load" = 0
+jnxUtilIntegerValue."pem_1_dc_power" = 0
+jnxUtilIntegerValue."pem_1_dc_voltage" = 0
+jnxUtilStringValue."pem_0_state" = Online
+jnxUtilStringValue."pem_1_state" = Present
+
+https://www.juniper.net/documentation/us/en/software/junos/network-mgmt/topics/topic-map/configuring-basic-snmp.html#id-utility-mib
